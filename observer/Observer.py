@@ -27,7 +27,8 @@ class Subject(object):
 	def notify_observer(self):
 		self.curr_time = time.time()
 		for observer in self.observers:
-			observer.notify(self.curr_time)
+			#observer.notify(self.curr_time)
+			observer.notify(self)
 
 class Observer(object):
 	"""Abstract class for observer, provides notify method as interface
@@ -49,7 +50,7 @@ class USATimeObserver(Observer):
 		self.name = name
 
 	def notify(self, unix_timestamp):
-		time = datetime.datetime.fromtimestamp(int(unix_timestamp)).strftime('%Y-%m-%d %I:%M:%S%p')
+		time = datetime.datetime.fromtimestamp(int(unix_timestamp.curr_time)).strftime('%Y-%m-%d %I:%M:%S%p')
 		print 'Observer', self.name, 'says:', time
 
 class EUTimeObserver(Observer):
@@ -58,7 +59,7 @@ class EUTimeObserver(Observer):
 
 
 	def notify(self, unix_timestamp):
-		time = datetime.datetime.fromtimestamp(int(unix_timestamp)).strftime('%Y-%m-%d %H:%M:%S')
+		time = datetime.datetime.fromtimestamp(int(unix_timestamp.curr_time)).strftime('%Y-%m-%d %H:%M:%S')
 		print 'Observer', self.name, 'says:', time
 
 
